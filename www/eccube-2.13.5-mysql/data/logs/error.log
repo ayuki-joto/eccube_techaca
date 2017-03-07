@@ -1,0 +1,1 @@
+2017/03/07 18:28:33 [/eccube-2.13.5-mysql/html/admin/index.php] Warning(E_WARNING): error_log(/vagrant/www/eccube-2.13.5-mysql/html/../data/logs/admin.log) [<a href='function.error-log'>function.error-log</a>]: failed to open stream: 許可がありません on [/vagrant/www/eccube-2.13.5-mysql/data/class/util/GC_Utils.php(203)] from 192.168.55.1
