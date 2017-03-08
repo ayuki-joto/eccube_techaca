@@ -66,7 +66,7 @@
                 </td>
             </tr>
             <tr>
-                <th>公開終了日<span class="attention"> *</span></th>   <!--追加-->
+                <th>公開終了日<span class="attention"> *</span></th>
                 <td>
                     <!--{if $arrErr.end_news_year || $arrErr.end_news_month || $arrErr.end_news_day}--><span class="attention"><!--{$arrErr.end_news_year}--><!--{$arrErr.end_news_month}--><!--{$arrErr.end_news_day}--></span><!--{/if}-->
                     <select name="end_news_year" <!--{if $arrErr.end_news_year || $arrErr.end_news_month || $arrErr.end_news_day }-->style="background-color:<!--{$smarty.const.ERR_COLOR|h}-->"<!--{/if}-->>
@@ -79,7 +79,7 @@
                     </select>月
                     <select name="end_news_day" <!--{if $arrErr.end_news_year || $arrErr.end_news_month || $arrErr.end_news_day}-->style="background-color:<!--{$smarty.const.ERR_COLOR|h}-->"<!--{/if}-->>
                     <option value="" selected="selected">--</option>
-                    <!--{html_options options=$arrDay selected=$arrForm.news_end_day.value}-->
+                    <!--{html_options options=$arrDay selected=$arrForm.end_news_day.value}-->
                     </select>日
                 </td>
             </tr>
