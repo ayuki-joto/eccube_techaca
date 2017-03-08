@@ -21,28 +21,34 @@
  *}-->
 
 <!--{strip}-->
-    <div class="block_outer">
-        <div id="news_area">
-            <h2><img src="<!--{$TPL_URLPATH}-->img/title/tit_bloc_news.png" alt="新着情報" /><span class="rss"><a href="<!--{$smarty.const.ROOT_URLPATH}-->rss/<!--{$smarty.const.DIR_INDEX_PATH}-->" target="_blank"><img src="<!--{$TPL_URLPATH}-->img/button/btn_rss.jpg" alt="RSS" /></a></span></h2>
-            <div class="block_body">
-                <div class="news_contents">
+<div class="block_outer">
+    <div id="news_area">
+        <h2><img src="<!--{$TPL_URLPATH}-->img/title/tit_bloc_news.png" alt="新着情報"/><span class="rss"><a
+                        href="<!--{$smarty.const.ROOT_URLPATH}-->rss/<!--{$smarty.const.DIR_INDEX_PATH}-->"
+                        target="_blank"><img src="<!--{$TPL_URLPATH}-->img/button/btn_rss.jpg" alt="RSS"/></a></span>
+        </h2>
+        <div class="block_body">
+            <div class="news_contents">
                 <!--{section name=data loop=$arrNews}-->
                 <!--{assign var="date_array" value="-"|explode:$arrNews[data].cast_news_date}-->
+                <!--{if $arrNews[data].cast_start_news_date le $smarty.now|date_format:"%Y-%m-%d" && $smarty.now|date_format:"%Y-%m-%d" le $arrNews[data].cast_end_news_date}-->
                 <dl class="newslist">
                     <dt><!--{$date_array[0]}-->年<!--{$date_array[1]}-->月<!--{$date_array[2]}-->日</dt>
                     <dt>
                         <a
-                            <!--{if $arrNews[data].news_url}--> href="<!--{$arrNews[data].news_url}-->" <!--{if $arrNews[data].link_method eq "2"}--> target="_blank"
-                                <!--{/if}-->
-                            <!--{/if}-->
+                        <!--{if $arrNews[data].news_url}--> href="<!--{$arrNews[data].news_url}-->"
+                        <!--{if $arrNews[data].link_method eq "2"}--> target="_blank"
+                        <!--{/if}-->
+                        <!--{/if}-->
                         >
-                            <!--{$arrNews[data].news_title|h|nl2br}--></a>
+                        <!--{$arrNews[data].news_title|h|nl2br}--></a>
                     </dt>
                     <dd class="mini"><!--{$arrNews[data].news_comment|h|nl2br}--></dd>
                 </dl>
+                <!--{/if}-->
                 <!--{/section}-->
-                </div>
             </div>
         </div>
     </div>
+</div>
 <!--{/strip}-->

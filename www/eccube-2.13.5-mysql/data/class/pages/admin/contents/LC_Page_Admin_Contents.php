@@ -112,6 +112,8 @@ class LC_Page_Admin_Contents extends LC_Page_Admin_Ex
             case 'pre_edit':
                 $news = $objNews->getNews($news_id);
                 list($news['year'],$news['month'],$news['day']) = $this->splitNewsDate($news['cast_news_date']);
+                list($news['start_news_year'],$news['start_news_month'],$news['start_news_day']) = $this->splitNewsDate($news['cast_start_news_date']);
+                list($news['end_news_year'],$news['end_news_month'],$news['end_news_day']) = $this->splitNewsDate($news['cast_end_news_date']);
                 $objFormParam->setParam($news);
 
                 // POSTデータを引き継ぐ
@@ -169,6 +171,7 @@ class LC_Page_Admin_Contents extends LC_Page_Admin_Ex
         $objErr = new SC_CheckError_Ex($objFormParam->getHashArray());
         $objErr->arrErr = $objFormParam->checkError();
         $objErr->doFunc(array('日付', 'year', 'month', 'day'), array('CHECK_DATE'));
+        $objErr->doFunc(array('開始期限','終了期限','start_news_year','start_news_month','start_news_day','end_news_year', 'end_news_month', 'end_news_day'),array('CHECK_SET_TERM'));//期限設定
 
         return $objErr->arrErr;
     }
@@ -183,6 +186,12 @@ class LC_Page_Admin_Contents extends LC_Page_Admin_Ex
         $objFormParam->addParam('日付(年)', 'year', INT_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
         $objFormParam->addParam('日付(月)', 'month', INT_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
         $objFormParam->addParam('日付(日)', 'day', INT_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam('開始日付(年)', 'start_news_year', INT_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK')); //追加
+        $objFormParam->addParam('開始日付(月)', 'start_news_month', INT_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK')); //追加
+        $objFormParam->addParam('開始日付(日)', 'start_news_day', INT_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK')); //追加
+        $objFormParam->addParam('終了日付(年)', 'end_news_year', INT_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK')); //追加
+        $objFormParam->addParam('終了日付(月)', 'end_news_month', INT_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK')); //追加
+        $objFormParam->addParam('終了日付(日)', 'end_news_day', INT_LEN, 'n', array('EXIST_CHECK', 'NUM_CHECK', 'MAX_LENGTH_CHECK')); //追加
         $objFormParam->addParam('タイトル', 'news_title', MTEXT_LEN, 'KVa', array('EXIST_CHECK','MAX_LENGTH_CHECK','SPTAB_CHECK'));
         $objFormParam->addParam('URL', 'news_url', URL_LEN, 'KVa', array('MAX_LENGTH_CHECK'));
         $objFormParam->addParam('本文', 'news_comment', LTEXT_LEN, 'KVa', array('MAX_LENGTH_CHECK'));
@@ -204,8 +213,38 @@ class LC_Page_Admin_Contents extends LC_Page_Admin_Ex
         $sqlval['link_method'] = $this->checkLinkMethod($sqlval['link_method']);
         $sqlval['news_date'] = $this->getRegistDate($sqlval);
         unset($sqlval['year'], $sqlval['month'], $sqlval['day']);
+        $sqlval['start_news_date'] = $this->getStartDate($sqlval);
+        unset($sqlval['start_news_year'],$sqlval['start_news_month'],$sqlval['start_news_day']);
+        $sqlval['end_news_date'] = $this->getEndDate($sqlval);
+        unset($sqlval['end_news_year'],$sqlval['end_news_month'],$sqlval['end_news_day']);
 
         return $objNews->saveNews($sqlval);
+    }
+
+
+    /**
+     * お知らせ表示終了期限を返す。
+     * @param  Array  $arrPost POSTのグローバル変数
+     * @return string 表示終了期限を示す文字列
+     */
+    public function getEndDate($arrPost) //追加
+    {
+        $endDate = $arrPost['end_news_year'] .'/'. $arrPost['end_news_month'] .'/'. $arrPost['end_news_day'];
+
+        return $endDate;
+    }
+
+
+    /**
+     * お知らせ表示開始期限を返す。
+     * @param  Array  $arrPost POSTのグローバル変数
+     * @return string 表示開始期限を示す文字列
+     */
+    public function getStartDate($arrPost) //追加
+    {
+        $startDate = $arrPost['start_news_year'] .'/'. $arrPost['start_news_month'] .'/'. $arrPost['start_news_day'];
+
+        return $startDate;
     }
 
     /**
