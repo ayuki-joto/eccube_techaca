@@ -56,15 +56,21 @@ class SC_Helper_News
      * @param  integer $dispNumber  表示件数
      * @param  integer $pageNumber  ページ番号
      * @param  boolean $has_deleted 削除されたニュースも含む場合 true; 初期値 false
+     * @param  boolean $front 削除されたニュースも含む場合 true; 初期値 false
      * @return array
      */
-    public function getList($dispNumber = 0, $pageNumber = 0, $has_deleted = false)
+    public function getList($dispNumber = 0, $pageNumber = 0, $has_deleted = false, $front = false)
     {
         $objQuery =& SC_Query_Ex::getSingletonInstance();
         $col = '*, cast(news_date as date) as cast_news_date, cast(start_news_date as date) as cast_start_news_date, cast(end_news_date as date) as cast_end_news_date';
         $where = '';
         if (!$has_deleted) {
             $where .= 'del_flg = 0';
+        }
+        if ($front){
+            $time = date('Ymd');
+            $where = '? BETWEEN start_news_date AND end_news_date ';
+            $whereVal = $time;
         }
         $table = 'dtb_news';
         $objQuery->setOrder('rank DESC');
@@ -75,7 +81,11 @@ class SC_Helper_News
                 $objQuery->setLimit($dispNumber);
             }
         }
-        $arrRet = $objQuery->select($col, $table, $where);
+        if(!$front){
+            $arrRet = $objQuery->select($col, $table, $where);
+        }else{
+            $arrRet = $objQuery->select($col, $table, $where, $whereVal);
+        }
 
         return $arrRet;
     }

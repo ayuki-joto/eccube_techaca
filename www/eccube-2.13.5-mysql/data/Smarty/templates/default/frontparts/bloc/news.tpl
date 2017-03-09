@@ -31,7 +31,6 @@
             <div class="news_contents">
                 <!--{section name=data loop=$arrNews}-->
                 <!--{assign var="date_array" value="-"|explode:$arrNews[data].cast_news_date}-->
-                <!--{if $arrNews[data].cast_start_news_date le $smarty.now|date_format:"%Y-%m-%d" && $smarty.now|date_format:"%Y-%m-%d" le $arrNews[data].cast_end_news_date}-->
                 <dl class="newslist">
                     <dt><!--{$date_array[0]}-->年<!--{$date_array[1]}-->月<!--{$date_array[2]}-->日</dt>
                     <dt>
@@ -45,7 +44,6 @@
                     </dt>
                     <dd class="mini"><!--{$arrNews[data].news_comment|h|nl2br}--></dd>
                 </dl>
-                <!--{/if}-->
                 <!--{/section}-->
             </div>
         </div>
